@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import Counter from './counter'
-import Playground from './playground'
+import Todo from './todo'
 
 const App = () => {
   return (
@@ -11,11 +11,11 @@ const App = () => {
           <Link to='/'>Home</Link>
         </li>
         <li>
-          <Link to='/playground'>Playground</Link>
+          <Link to='/todo'>Todo</Link>
         </li>
       </ul>
       <Route exact path='/' component={Counter} />
-      <Route exact path='/playground' component={Playground} />
+      <Route exact path='/todo' component={Todo} />
     </BrowserRouter>
   )
 }

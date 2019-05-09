@@ -1,14 +1,16 @@
-const initialState = {
+import { fromJS } from 'immutable'
+
+const initialState = fromJS({
   count: 0
-}
+})
 
 const reducer = (state = initialState, action) => {
   if (action.type === 'increment') {
-    return {...state, count: state.count + 1 }
+    return state.update('count', count => count + 1)
   }
 
   if (action.type === 'decrement') {
-    return {...state, count: state.count - 1 }
+    return state.update('count', count => count - 1)
   }
   
   return state
