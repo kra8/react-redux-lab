@@ -1,19 +1,22 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { actions } from './ReduxProvider'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
+import Counter from './counter'
+import Playground from './playground'
 
 const App = () => {
-  const count = useSelector(state => state.count)
-  const dispatch = useDispatch()
-  const increment = React.useCallback(() => dispatch(actions.increment()), [dispatch])
-  const decrement = React.useCallback(() => dispatch(actions.decrement()), [dispatch])
-
   return (
-    <>
-      <button onClick={() => increment()}>Click Increment</button>
-      <button onClick={() => decrement()}>Click Decrement</button>
-      <p>count: {count}</p>
-    </>
+    <BrowserRouter>
+      <ul>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
+        <li>
+          <Link to='/playground'>Playground</Link>
+        </li>
+      </ul>
+      <Route exact path='/' component={Counter} />
+      <Route exact path='/playground' component={Playground} />
+    </BrowserRouter>
   )
 }
 
