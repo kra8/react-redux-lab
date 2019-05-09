@@ -2,14 +2,19 @@
   "name": "react-redux-lab",
   "version": "1.0.0",
   "description": "Boilerplate of lab for learn react and redux.",
-  "main": "index.js",
   "repository": "https://github.com/kra8/react-redux-lab",
   "author": "kra <email@kra.dev> (https://github.com/kra8)",
   "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0-alpha.4",
     "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3"
   }
 }
