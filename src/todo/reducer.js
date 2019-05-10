@@ -1,28 +1,29 @@
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 import uuid from 'uuid/v4'
 import { handleActions } from 'redux-actions'
 import { ActionTypes } from './actions'
+import { createState } from './utils'
+import Todo from './models/Todo'
 
-const initialState = Map({
+const initialState = fromJS({
   todos: [],
   users: []
 })
 
 const reducer = handleActions({
   [ActionTypes.SUCCESS_GET_TODOS]: (state, action) => {
-    return state.merge(action.payload.entities)
+    return state.merge(createState(action.payload))
   },
   [ActionTypes.REQUEST_ADD_TODOS]: (state, action) => {
-    return state.update('todos', todos => {
-      const newId = uuid()
+    return state.withMutations(mutator => {
       const { body, user } = action.payload
-      return {...todos, [newId]: { id: newId, body: body, user: user, status: 1 }}
+      const newTodo = new Todo({ id: uuid(), body: body, user: user })
+      mutator.update('todos', todos => todos.set(newTodo.id, newTodo))
     })
   },
   [ActionTypes.REQUEST_DELETE_TODOS]: (state, action) => {
-    return state.update('todos', todos => {
-      delete todos[action.payload]
-      return { ...todos }
+    return state.withMutations(mutator => {
+      mutator.update('todos', todos => todos.remove(action.payload))
     })
   }
 }, initialState)

@@ -7,7 +7,7 @@ import todoSchema from './schemas/todo'
 const delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 export function* handleRequestGetTodos() {
-  yield delay(1000)
+  delay(1000)
   const normalizedData = normalize(mockTodos.todos, [todoSchema])
   yield put(actions.successGetTodos(normalizedData))
 }

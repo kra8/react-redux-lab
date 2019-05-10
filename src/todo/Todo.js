@@ -43,8 +43,6 @@ const Todo = () => {
     requestGetTodos()
   })
 
-  console.log('@render', state)
-
   return (
     <>
       <input onChange={handleChange('body')} value={state.body} onKeyDown={handleKeyDown}/>
@@ -54,9 +52,14 @@ const Todo = () => {
         ))}
       </select>
       <ul>
-        {todos.map(todo => (
-          <li key={todo.id}><button onClick={handleDelete(todo.id)}>x</button> {todo.body} : {todo.user.name} </li>
-        ))}
+        {todos.map(todo => {
+          return (
+            <li key={todo.id}>
+              <button onClick={handleDelete(todo.id)}>x</button>
+              <span>{todo.body} : {todo.user.name}</span>
+            </li>
+          )
+        })}
       </ul>
     </>
   )
