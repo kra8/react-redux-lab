@@ -1,33 +1,61 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { normalize, schema } from 'normalizr'
+import { useDispatch, useSelector } from 'react-redux'
 import actions from './actions'
+import todosSelector from './selectors/todos'
+import usersSelector from './selectors/users'
 
-// const normalizedData = normalize(data, article);
+const useActions = () => {
+  const dispatch = useDispatch()
+
+  return React.useMemo(() => {
+    const requestGetTodos = () => dispatch(actions.requestGetTodos())
+    const requestAddTodos = text => dispatch(actions.requestAddTodos(text))
+    const requestDeleteTodos = id => dispatch(actions.requestDeleteTodos(id))
+    return { requestGetTodos, requestAddTodos, requestDeleteTodos }
+  }, [dispatch])
+}
+
+const useDidMount = callback => {
+  React.useEffect(() => {
+    callback()
+  }, [])
+}
 
 const Todo = () => {
-  const todos = useSelector(state => state.getIn(['todo', 'todos']))
-  const dispatch = useDispatch()
-  const addTodo = React.useCallback(text => dispatch(actions.addTodo(text)), [dispatch])
-  const deleteTodo = React.useCallback(id => dispatch(actions.deleteTodo(id)), [dispatch])
-  const [value, setValue] = React.useState('')
-  const handleChange = event => setValue(event.target.value)
+  const todos = useSelector(todosSelector)
+  const users = useSelector(usersSelector)
+  const { requestGetTodos, requestAddTodos, requestDeleteTodos } = useActions()
+  const [state, setState] = React.useState({ body: '', user: 'user-1' })
+
+  // handlers
+  const handleChange = type => event => setState({ ...state, [type] :event.target.value })
 
   const handleKeyDown = event => {
     if (event.keyCode === 13) {
-      addTodo(value)
-      setValue('')
+      requestAddTodos(state)
+      setState({ ...state, body: '' })
     }
   }
+  const handleDelete = id => () => requestDeleteTodos(id)
 
-  const handleDelete = id => () => deleteTodo(id)
+  // effects
+  useDidMount(() => {
+    requestGetTodos()
+  })
+
+  console.log('@render', state)
 
   return (
     <>
-      <input onChange={handleChange} value={value} onKeyDown={handleKeyDown}/>
+      <input onChange={handleChange('body')} value={state.body} onKeyDown={handleKeyDown}/>
+      <select value={state.user} onChange={handleChange('user')}>
+        {users.map(user => (
+          <option key={user.id} value={user.id}>{user.name}</option>
+        ))}
+      </select>
       <ul>
         {todos.map(todo => (
-          <li key={todo.get('id')}><button onClick={handleDelete(todo.get('id'))}>x</button> {todo.get('text')}</li>
+          <li key={todo.id}><button onClick={handleDelete(todo.id)}>x</button> {todo.body} : {todo.user.name} </li>
         ))}
       </ul>
     </>
