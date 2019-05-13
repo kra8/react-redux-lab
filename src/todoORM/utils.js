@@ -1,4 +1,4 @@
-import { Map, List, fromJS } from 'immutable'
+import { fromJS } from 'immutable'
 import User from './models/User'
 import Todo from './models/Todo'
 

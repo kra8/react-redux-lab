@@ -1,8 +1,10 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import actions from './actions'
 import todosSelector from './selectors/todos'
 import usersSelector from './selectors/users'
+import userSelector from './selectors/user'
+import ReactJson from 'react-json-view'
 
 const useActions = () => {
   const dispatch = useDispatch()
@@ -11,7 +13,8 @@ const useActions = () => {
     const requestGetTodos = () => dispatch(actions.requestGetTodos())
     const requestAddTodos = text => dispatch(actions.requestAddTodos(text))
     const requestDeleteTodos = id => dispatch(actions.requestDeleteTodos(id))
-    return { requestGetTodos, requestAddTodos, requestDeleteTodos }
+    const selectUser = id => dispatch(actions.selectUser(id))
+    return { requestGetTodos, requestAddTodos, requestDeleteTodos, selectUser }
   }, [dispatch])
 }
 
@@ -22,20 +25,15 @@ const useDidMount = callback => {
 }
 
 const Todo = () => {
+  const user = useSelector(userSelector)
   const todos = useSelector(todosSelector)
   const users = useSelector(usersSelector)
-  const { requestGetTodos, requestAddTodos, requestDeleteTodos } = useActions()
-  const [state, setState] = React.useState({ body: '', user: 'user-1' })
-
+  const store = useStore()
+  const { requestGetTodos, requestAddTodos, requestDeleteTodos, selectUser } = useActions()
+  const [text, setText] = React.useState('')
   // handlers
-  const handleChange = type => event => setState({ ...state, [type] :event.target.value })
-
-  const handleKeyDown = event => {
-    if (event.keyCode === 13) {
-      requestAddTodos(state)
-      setState({ ...state, body: '' })
-    }
-  }
+  const handleSelectUser = event => selectUser(event.target.value)
+  const handleChangeText = React.useCallback(event => setText(event.target.value), [setText])
   const handleDelete = id => () => requestDeleteTodos(id)
 
   // effects
@@ -43,14 +41,22 @@ const Todo = () => {
     requestGetTodos()
   })
 
+  // console.log('@render', todos, users)
+  const handleKeyDown = event => {
+    if (event.keyCode === 13) {
+      requestAddTodos(text)
+      setText('')
+    }
+  }
+
   return (
     <>
-      <input onChange={handleChange('body')} value={state.body} onKeyDown={handleKeyDown}/>
-      <select value={state.user} onChange={handleChange('user')}>
+      <select value={user.id} onChange={handleSelectUser}>
         {users.map(user => (
           <option key={user.id} value={user.id}>{user.name}</option>
         ))}
       </select>
+      <input onChange={handleChangeText} onKeyDown={handleKeyDown} value={text} />
       <ul>
         {todos.map(todo => {
           return (
@@ -61,6 +67,7 @@ const Todo = () => {
           )
         })}
       </ul>
+      <ReactJson src={store.getState().toJS()}></ReactJson>
     </>
   )
 }

@@ -4,28 +4,40 @@
       "id": "todo-1",
       "body":"ticket #1",
       "status":1,
+      "userId": "user-1",
       "user":{
         "id": "user-1",
         "name":"john"
-      }
+      },
+      "tags": [
+        "work", "urgent"
+      ]
     },
     {
       "id": "todo-2",
       "body":"ticket #2",
       "status":1,
+      "userId": "user-1",
       "user":{
         "id": "user-1",
         "name":"john"
-      }
+      },
+      "tags": [
+        "work"
+      ]
     },
     {
       "id": "todo-3",
       "body":"ticket #3",
       "status":1,
+      "userId": "user-2",
       "user":{
         "id": "user-2",
         "name":"tom"
-      }
+      },
+      "tags": [
+        "personal", "chore"
+      ]
     }
   ]
 }
