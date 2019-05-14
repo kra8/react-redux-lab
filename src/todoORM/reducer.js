@@ -1,5 +1,4 @@
 import { Map } from 'immutable'
-import uuid from 'uuid/v4'
 import { handleActions } from 'redux-actions'
 import { ActionTypes } from './actions'
 import orm from './orm'
@@ -16,13 +15,14 @@ const reducer = handleActions({
     const session = orm.session(state.get('orm'))
     const { Todo, User } = session
 
-    action.payload.map(todo => {
-      if (!Todo.idExists(todo.id)) {
-        Todo.create(todo)
-      }
+    action.payload.map(todoRef => {
+      const user = User.idExists(todoRef.user.id) ? User.withId(todoRef.user.id) : User.create(todoRef.user)
 
-      if (!User.idExists(todo.user.id)) {
-        User.create(todo.user)
+      if (!Todo.idExists(todoRef.id)) {
+        Todo.create({
+          ...todoRef,
+          user: user
+        })
       }
     })
     return state.set('orm', session.state)
@@ -34,9 +34,9 @@ const reducer = handleActions({
   },
   [ActionTypes.REQUEST_ADD_TODOS]: (state, action) => {
     const session = orm.session(state.get('orm'))
-    const { Todo } = session
-    
-    Todo.create({ id: uuid(), body: action.payload, userId: state.getIn(['view', 'selectedUserId']) })
+    const { Todo, User } = session
+
+    Todo.create({ body: action.payload, user: User.create({ name: 'Adder' }) })
     return state.set('orm', session.state)
   },
   [ActionTypes.REQUEST_DELETE_TODOS]: (state, action) => {

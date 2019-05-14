@@ -1,11 +1,9 @@
-import { put, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery, delay } from 'redux-saga/effects'
 import mockTodos from '../mock/todos.json'
 import actions, { ActionTypes } from './actions'
 
-const delay = time => new Promise(resolve => setTimeout(resolve, time))
-
 export function* handleRequestGetTodos() {
-  delay(1000)
+  yield delay(1000)
   yield put(actions.successGetTodos(mockTodos.todos))
 }
 
