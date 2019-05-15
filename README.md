@@ -8,6 +8,8 @@
 - react-redux
 - redux-actions
 - Immutable
-- normalizer
+- ~~normalizer~~
+- redux-orm
 - reselect
+
 
