@@ -36,7 +36,7 @@ const reducer = handleActions({
     const session = orm.session(state.get('orm'))
     const { Todo, User } = session
 
-    Todo.create({ body: action.payload, user: User.create({ name: 'Adder' }) })
+    Todo.create({ body: action.payload, user: User.withId(state.getIn(['view', 'selectedUserId'])) })
     return state.set('orm', session.state)
   },
   [ActionTypes.REQUEST_DELETE_TODOS]: (state, action) => {
