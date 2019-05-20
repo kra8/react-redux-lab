@@ -6,7 +6,9 @@
   "author": "kra <me@kra.dev> (https://github.com/kra8)",
   "license": "MIT",
   "scripts": {
-    "start:orm": "parcel UseReduxOrm/index.html"
+    "start:vanilla": "parcel Vanilla/index.html --cache-dir .cache/Vanilla -d dist/Vanilla",
+    "start:orm": "parcel UseReduxOrm/index.html --cache-dir .cache/UseReduxORM -d dist/UseReduxORM",
+    "clean": "rimraf .cache dist"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -27,6 +29,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.3",
+    "rimraf": "^2.6.3"
   }
 }
