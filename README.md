@@ -1,6 +1,6 @@
 # Lab for React Redux SPA Application
 
-Lab for large scale single page application.
+Lab for large scale single page application.  
 I want to know how to develop simple, fast, maintainable and scalable.
 
 # labs
