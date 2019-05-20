@@ -1,15 +1,23 @@
 # Lab for React Redux SPA Application
 
-大規模なSPAのための研究用
+Lab for large scale single page application.
+I want to know how to develop simple, fast, maintainable and scalable.
+
+# labs
+- redux orm
+```
+> cd UseReducORM
+> yarn install
+> yarn start
+```
 
 # Used
 - React
 - Redux
+- parcel
 - react-redux
 - redux-actions
 - Immutable
-- ~~normalizer~~
+- normalizer
 - redux-orm
 - reselect
-
-
