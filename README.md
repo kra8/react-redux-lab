@@ -6,9 +6,8 @@ I want to know how to develop simple, fast, maintainable and scalable.
 # labs
 - redux orm
 ```
-> cd UseReducORM
 > yarn install
-> yarn start
+> yarn start:orm
 ```
 
 # Used
