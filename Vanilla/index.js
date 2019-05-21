@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Boot from './bootstrap'
+import Root from './Root'
 
 const rootElement = document.querySelector('#root')
 
-render(<Boot />, rootElement)
+render(<Root />, rootElement)
