@@ -16,14 +16,8 @@ const reducer = handleActions({
     const { Todo, User } = session
 
     action.payload.map(todoRef => {
-      const user = User.idExists(todoRef.user.id) ? User.withId(todoRef.user.id) : User.create(todoRef.user)
-
-      if (!Todo.idExists(todoRef.id)) {
-        Todo.create({
-          ...todoRef,
-          user: user
-        })
-      }
+      const user = User.upsert(todoRef.user)
+      Todo.upsert({ ...todoRef, user })
     })
     return state.set('orm', session.state)
   },
