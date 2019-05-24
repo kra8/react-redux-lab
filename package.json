@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@material-ui/styles": "^4.0.0-beta.2",
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.3.0",
     "normalizr-immutable": "^0.0.3",
